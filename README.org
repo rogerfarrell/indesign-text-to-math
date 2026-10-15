@@ -1,0 +1,114 @@
+#+TITLE: Convert plain text to InDesign math expressions with ExtendScript
+#+AUTHOR: Roger Farrell
+
+* Usage
+
+Select a single line of text in an InDesign text object, then activate
+the script. Your selection will be replaced with a minimally formatted
+math expression.
+
+*Bind this script to a comfortable key-chord for mouse-free workflows.*
+
+** Example input
+
+#+begin_example
+(2 - 3) * 5 = -5
+#+end_example
+
+** Bindings
+
+| Input      | Enclosing tag               | Output   | Description                          |
+|------------+-----------------------------+----------+--------------------------------------|
+| =          | =<mo>=                      | =        | equals                               |
+| +          | =<mo>=                      | +        | plus                                 |
+| (          | =<mo>=                      | (        | left paren                           |
+| )          | =<mo>=                      | )        | right paren                          |
+| [          | =<mo>=                      | [        | left bracket                         |
+| ]          | =<mo>=                      | ]        | right bracket                        |
+| {          | =<mo>=                      | {        | left brace                           |
+| }          | =<mo>=                      | }        | right brace                          |
+| \vert      | =<mo>=                      | \vert    | vertical bar                         |
+| !          | =<mo>=                      | !        | factorial                            |
+| %          | =<mo>=                      | %        | percent                              |
+| :          | =<mo>=                      | :        | colon / ratio                        |
+| ;          | =<mo>=                      | ;        | semicolon                            |
+| ?          | =<mo>=                      | ?        | question mark                        |
+| ^          | =<mo>=                      | ^        | caret                                |
+| ~          | =<mo>=                      | ~        | tilde                                |
+| $          | =<mo>=                      | $        | dollar                               |
+| ×          | =<mo>=                      | ×        | multiplication                       |
+| ÷          | =<mo>=                      | ÷        | division                             |
+| −          | =<mo>=                      | −        | minus                                |
+| ⋅           | =<mo>=                      | ⋅         | dot operator                         |
+| ±          | =<mo>=                      | ±        | plus-minus                           |
+| ∓          | =<mo>=                      | ∓        | minus-plus                           |
+| ≠          | =<mo>=                      | ≠        | not equal                            |
+| ≈          | =<mo>=                      | ≈        | approximately                        |
+| ≤          | =<mo>=                      | ≤        | less or equal                        |
+| ≥          | =<mo>=                      | ≥        | greater or equal                     |
+| ≡          | =<mo>=                      | ≡        | identical                            |
+| ∝          | =<mo>=                      | ∝        | proportional                         |
+| √          | =<mo>=                      | √        | square root                          |
+| ∑          | =<mo>=                      | ∑        | sum                                  |
+| ∏          | =<mo>=                      | ∏        | product                              |
+| ∫          | =<mo>=                      | ∫        | integral                             |
+| ∂          | =<mo>=                      | ∂        | partial                              |
+| ∠          | =<mo>=                      | ∠        | angle                                |
+| ⊥          | =<mo>=                      | ⊥        | perpendicular                        |
+| ∥          | =<mo>=                      | ∥        | parallel                             |
+| △          | =<mo>=                      | △        | triangle                             |
+| °          | =<mo>=                      | °        | degree                               |
+| ′          | =<mo>=                      | ′        | prime                                |
+| ″          | =<mo>=                      | ″        | double prime                         |
+| →          | =<mo>=                      | →        | right arrow                          |
+| ←          | =<mo>=                      | ←        | left arrow                           |
+| ⇒          | =<mo>=                      | ⇒        | implies                              |
+| ⇔         | =<mo>=                      | ⇔       | if and only if                       |
+| ∈          | =<mo>=                      | ∈        | element of                           |
+| ∉          | =<mo>=                      | ∉        | not element of                       |
+| ⊂          | =<mo>=                      | ⊂        | subset                               |
+| ⊆          | =<mo>=                      | ⊆        | subset or equal                      |
+| ∪          | =<mo>=                      | ∪        | union                                |
+| ∩          | =<mo>=                      | ∩        | intersection                         |
+| ∴          | =<mo>=                      | ∴        | therefore                            |
+| ∵          | =<mo>=                      | ∵        | because                              |
+| …          | =<mo>=                      | …        | ellipsis                             |
+| ¢          | =<mo>=                      | ¢        | cent                                 |
+| £          | =<mo>=                      | £        | pound                                |
+| €          | =<mo>=                      | €        | euro                                 |
+| ,          | =<mn>=                      | ,        | comma (number)                       |
+| .          | =<mn>=                      | .        | decimal point                        |
+| ½          | =<mn>=                      | ½        | one half                             |
+| ⅓          | =<mn>=                      | ⅓        | one third                            |
+| ⅔          | =<mn>=                      | ⅔        | two thirds                           |
+| ¼          | =<mn>=                      | ¼        | one quarter                          |
+| ¾          | =<mn>=                      | ¾        | three quarters                       |
+| ⅕          | =<mn>=                      | ⅕        | one fifth                            |
+| ⅛          | =<mn>=                      | ⅛        | one eighth                           |
+| ⅜          | =<mn>=                      | ⅜        | three eighths                        |
+| ⅝          | =<mn>=                      | ⅝        | five eighths                         |
+| ⅞          | =<mn>=                      | ⅞        | seven eighths                        |
+| ∞          | =<mi mathvariant="normal">= | ∞        | infinity                             |
+| ∅          | =<mi mathvariant="normal">= | ∅        | empty set                            |
+| -          | =<mo>=                      | −        | hyphen → minus                       |
+| –          | =<mo>=                      | −        | en dash → minus                      |
+| *          | =<mo>=                      | ⋅         | asterisk → dot operator              |
+| ·          | =<mo>=                      | ⋅         | middle dot → dot operator            |
+| /          | =<mo>=                      | ÷        | slash → division                     |
+| '          | =<mo>=                      | ′        | apostrophe → prime                   |
+| ’          | =<mo>=                      | ′        | right single quote → prime           |
+| "          | =<mo>=                      | ″        | straight double quote → double prime |
+| ”          | =<mo>=                      | ″        | right double quote → double prime    |
+| <          | =<mo>=                      | <        | less than (written as =&lt;=)        |
+| >          | =<mo>=                      | >        | greater than (written as =&gt;=)     |
+| &          | =<mo>=                      | &        | ampersand (written as =&amp;=)       |
+| 0–9        | =<mn>=                      | digit    | digit                                |
+| whitespace |                             |          | removed (spaces, tabs, returns)      |
+| any other  | =<mi mathvariant="italic">= | as typed | identifier (letters, Greek, etc.)    |
+
+* AI disclaimer
+
+This project started as a hand-coded Guile Scheme
+script. Unfortunately, I needed tighter integration with InDesign for
+work. I hate working with the InDesign API so I used Claude to convert
+my working Guile code into an ExtendScript.
